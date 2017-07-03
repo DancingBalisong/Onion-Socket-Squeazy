@@ -7,20 +7,79 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 
+import Util.AVLTree;
 import model.Mercadoria;
 
 public class Controller {
+	AVLTree sequoia;//arvore
 	
     public Controller(){
+    	sequoia = new AVLTree();
     }
     
+    public BufferedReader leituraDeArquivo() throws IOException{//esse metodo retorna o leitor do arquivo
+    	String diretorio = "C:\\Users\\Usuario\\Documents\\NetBeansProjects\\Arquivo\\arquivo.txt";//OU pode vir de um outro metodo, depende do teste.
+    	FileReader arq = null;
+		try {
+			arq = new FileReader(diretorio);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+	        System.err.printf("Erro na abertura do arquivo: %s.\n",
+	          e.getMessage());
+	    }
+        BufferedReader lerArq = new BufferedReader(arq);
+        if(arq != null){
+        	return lerArq;
+        }
+        return null;
+    }
     
-    
-	public Mercadoria[] transferirArquivoNoVetor(){
+	public Mercadoria[] transferirArquivoNoVetor() throws IOException{//usa o leitor
+		BufferedReader leitor = leituraDeArquivo();
+		int contador = contarMercadorias();
+		int j = 0;
+		Mercadoria[] temp = new Mercadoria[contador];
+		String linha = null;
+		if(leitor != null && contador != 0){
+			linha = leitor.readLine(); // le primeira linha, recebe o valor "null" quando o processo de repeticao atingir o final do arquivo de texto
+			while (linha != null){//enquanto nao acabarem as linhas
+               String words[] = linha.split(";");//divide a string/frase onde tem -;- e coloca em words, as strings distam -;- de uma a outra.
+               for(int i = 0; i < 6; i++){//são 6 atributos
+            	   if(i == 0){
+            		  temp[j].setLote(words[i]);
+            	   }else if(i == 1){
+            		  temp[j].setBloco(words[i]);
+            	   }else if(i == 2){
+            		  temp[j].setNumero(words[i]);
+            	   }else if(i == 3){
+            		  temp[j].setFornecedor(words[i]);
+            	   }else if(i == 4){
+            		  temp[j].setData(words[i]);
+            	   }else
+            		  temp[j].setHora(words[i]);
+               }
+               linha = leitor.readLine(); // le da segunda em diante
+               j++;//muda a posilçai do vetor de mercadorias
+            }
+			leitor.close();
+			return temp;
+		}
 		return null;
 	}
 	
-    public String buscarMercadoria(){//ira retornar os dados da linha desejada do arquivo
+	public void inserirNaArvore() throws IOException{
+		Mercadoria[] lote = transferirArquivoNoVetor();
+		if(sequoia.){
+			for(){
+			
+			}
+		}
+		
+	}
+	
+	
+	public Mercadoria buscarMercadoria(String lote, String bloco, String fornecedor){//ira retornar os dados da linha desejada do arquivo
     
         /*Scanner teclado = new Scanner(System.in);
         
@@ -74,21 +133,18 @@ public class Controller {
           e.getMessage());
         }
         */
-        
+        return null;
     }
     
     
     //////////////////////////////////////////////////////////////////////////
     
-    public void contarMercadorias(){//conta o nº de linhas do arquivo
+    public int contarMercadorias(){//conta o nº de linhas do arquivo
         String  linha;
-        
+        int quantDeLinhas = 0;
         try {
             FileReader arq = new FileReader("C:\\Users\\Usuario\\Documents\\NetBeansProjects\\Arquivo\\arquivo.txt");
             BufferedReader lerArq = new BufferedReader(arq);
-
-            int quantDeLinhas = 0;//atributo para contar as linhas
-           
 
             linha = lerArq.readLine(); // le a primeira linha
                                        // a variavel "linha" recebe o valor "null" quando o processo
@@ -122,7 +178,7 @@ public class Controller {
         System.err.printf("Erro na abertura do arquivo: %s.\n",
           e.getMessage());
         }
-        
+        return quantDeLinhas;
     }
     
     
