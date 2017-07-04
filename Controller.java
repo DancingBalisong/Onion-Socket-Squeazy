@@ -2,10 +2,11 @@
 package controller;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Scanner;
 
 import Util.AVLTree;
 import model.Mercadoria;
@@ -17,7 +18,7 @@ public class Controller {
     	sequoia = new AVLTree();
     }
     
-    public BufferedReader leituraDeArquivo() throws IOException{//esse metodo retorna o leitor do arquivo
+    public static BufferedReader leituraDeArquivo() throws IOException{//esse metodo retorna o leitor do arquivo
     	String diretorio = "C:\\Users\\Usuario\\Documents\\NetBeansProjects\\Arquivo\\arquivo.txt";//OU pode vir de um outro metodo, depende do teste.
     	FileReader arq = null;
 		try {
@@ -32,6 +33,7 @@ public class Controller {
         if(arq != null){
         	return lerArq;
         }
+        lerArq.close();
         return null;
     }
     
@@ -51,7 +53,8 @@ public class Controller {
             	   }else if(i == 1){
             		  temp[j].setBloco(words[i]);
             	   }else if(i == 2){
-            		  temp[j].setNumero(words[i]);
+            		  int k = Integer.parseInt(words[i]);//mudar String para int
+            		  temp[j].setNumero(k);
             	   }else if(i == 3){
             		  temp[j].setFornecedor(words[i]);
             	   }else if(i == 4){
@@ -70,15 +73,44 @@ public class Controller {
 	
 	public void inserirNaArvore() throws IOException{
 		Mercadoria[] lote = transferirArquivoNoVetor();
-		if(sequoia.){
-			for(){
-			
+		if(lote != null){
+			for(int i = 0; i < lote.length; i++){
+				sequoia.inserir(lote[i]);//cria nos com os numeros das mercadorias
 			}
+			lote = null;//esvazia o vetor
 		}
+	}
+	
+	public void listarDadosDaArvore(){
 		
 	}
 	
+	public void escreverNoArquivo() throws IOException{
+		Mercadoria[] org = organizarMercadorias();
+		try{
+			FileWriter escritor = new FileWriter("teste.csv");
+			BufferedWriter escreverKayden = new BufferedWriter(escritor);
+			String suporte = "";
+			String[] produto = null;
+			for(int i = 0; i < org.length; i++){//são 6 atributos
+				produto[i] = org[i].getLote() + ";" + org[i].getBloco() + ";" + org[i].getNumero() + ";" + org[i].getFornecedor()  + ";" + org[i].getData() + ";" + org[i].getHora();//em cada posição tem uma frase
+				suporte = produto[i];
+				escreverKayden.write(suporte);
+				escreverKayden.newLine();
+				escreverKayden.flush();
+				suporte = "";
+	        }
+			escreverKayden.close();
+		}
+		catch(IOException e){
+			
+		}
+	}
 	
+	private Mercadoria[] organizarMercadorias() {
+		return null;
+	}
+
 	public Mercadoria buscarMercadoria(String lote, String bloco, String fornecedor){//ira retornar os dados da linha desejada do arquivo
     
         /*Scanner teclado = new Scanner(System.in);
