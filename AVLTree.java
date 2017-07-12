@@ -1,26 +1,29 @@
 package Util;
 
 import java.util.ArrayList;
+
 import model.Mercadoria;
 
 public class AVLTree {
 	protected No root;
 	//a chave passou a ser a mercadoria
-	public class No {
-        private No left;
-		private No right;
-		private No parent;
-		private Mercadoria chave;//chave é uma mercadoria
-		private int balanceamento;
 	
-		public No(Mercadoria k) {
-			setLeft(setRight(setParent(null)));
-			setBalanceamento(0);
-			setchave(k);
+	public class No {
+
+        private No esquerda;
+		private No direita;
+		private No pai;
+		private Mercadoria chave;//chave é um endereço de mercadoria.
+		private int balanceamento;//para balancear, é necessário que o valor do nó da arvore/sub-arvore esteja entre [-1,1].
+	
+		public No(Mercadoria chave) {
+			setEsquerda(setDireita(setpai(null)));//não tem pai
+			setBalanceamento(0);//a raiz inserida no inicio é sempre balanceada.
+			setchave(chave);//insere o
 		}
 	
 		public String toString() {
-			return Integer.toString(getchave().getNumero());
+			return Integer.toString(getchave().getLote());
 		}
 	
 		public Mercadoria getchave() {
@@ -39,66 +42,67 @@ public class AVLTree {
 			this.balanceamento = balanceamento;
 		}
 	
-		public No getParent() {
-			return parent;
+		public No getpai() {
+			return pai;
 		}
 	
-		public No setParent(No parent) {
-			this.parent = parent;
-			return parent;
+		public No setpai(No pai) {
+			this.pai = pai;
+			return pai;
 		}
 	
-		public No getRight() {
-			return right;
+		public No getDireita() {
+			return direita;
 		}
 	
-		public No setRight(No right) {
-			this.right = right;
-			return right;
+		public No setDireita(No direita) {
+			this.direita = direita;
+			return direita;
 		}
 	
 		public No getEsquerda() {
-			return left;
+			return esquerda;
 		}
 	
-		public void setLeft(No left) {
-			this.left = left;
+		public void setEsquerda(No esquerda) {
+			this.esquerda = esquerda;
 		}
 	}
-	public void inserir(Mercadoria k) {
-		No n = new No(k);
+
+	public void inserir(Mercadoria chave) {
+		No n = new No(chave);
 		inserirAVL(this.root, n);
 	}
 
 	public void inserirAVL(No aComparar, No aInserir) {
 
 		if (aComparar == null) {
-			this.root = aInserir;//o primerio item inserido se torna a raiz
+			this.root = aInserir;//o primerio item inserido se torna a raiz.
 
 		} else {
 
-			if (aInserir.getchave().getNumero() < aComparar.getchave().getNumero()) {
-
-				if (aComparar.getEsquerda() == null) {
-					aComparar.setLeft(aInserir);
-					aInserir.setParent(aComparar);
-					verificarBalanceamento(aComparar);
-
+			if (aInserir.getchave().getLote() < aComparar.getchave().getLote()) {
+				//se o lote do filho for menor que o lote da mercadoria pai, o lote será inserido na esquerda.
+				if (aComparar.getEsquerda().equals(null)) {
+					aComparar.setEsquerda(aInserir);//seta a mercadoria como filho da esquerda
+					aInserir.setpai(aComparar);//seta o pai da mercadoria inserida
+					verificarBalanceamento(aComparar);//checa o balanceamento
+					//caso o filho da esquerda não tenha filho, insere no lugar.
 				} else {
+					//se não, chama recursivamente até achar um nó vazio.
 					inserirAVL(aComparar.getEsquerda(), aInserir);
 				}
 
-			} else if (aInserir.getchave().getNumero() > aComparar.getchave().getNumero()) {
-
-				if (aComparar.getRight() == null) {
-					aComparar.setRight(aInserir);
-					aInserir.setParent(aComparar);
+			} else if (aInserir.getchave().getLote() > aComparar.getchave().getLote()) {
+				//se o lote do filho for maior que o lote da mercadoria pai, o lote será inserido na direita.
+				if (aComparar.getDireita() == null) {
+					aComparar.setDireita(aInserir);
+					aInserir.setpai(aComparar);
 					verificarBalanceamento(aComparar);
-
+					
 				} else {
-					inserirAVL(aComparar.getRight(), aInserir);
+					inserirAVL(aComparar.getDireita(), aInserir);
 				}
-
 			} else {
 				// O nó já existe
 			}
@@ -111,7 +115,7 @@ public class AVLTree {
 
 		if (balanceamento == -2) {
 
-			if (altura(atual.getEsquerda().getEsquerda()) >= altura(atual.getEsquerda().getRight())) {
+			if (altura(atual.getEsquerda().getEsquerda()) >= altura(atual.getEsquerda().getDireita())) {
 				atual = rotacaoDireita(atual);
 
 			} else {
@@ -120,7 +124,7 @@ public class AVLTree {
 
 		} else if (balanceamento == 2) {
 
-			if (altura(atual.getRight().getRight()) >= altura(atual.getRight().getEsquerda())) {
+			if (altura(atual.getDireita().getDireita()) >= altura(atual.getDireita().getEsquerda())) {
 				atual = rotacaoEsquerda(atual);
 
 			} else {
@@ -128,97 +132,104 @@ public class AVLTree {
 			}
 		}
 
-		if (atual.getParent() != null) {
-			verificarBalanceamento(atual.getParent());
+		if (atual.getpai() != null) {
+			verificarBalanceamento(atual.getpai());
 		} else {
 			this.root = atual;
 		}
 	}
 
-	public void remover(int k) {
-		removerAVL(this.root, k);
+	public void remover(Mercadoria chave) {
+		//a chave seria o numero lote.
+		removerAVL(this.root, chave);
 	}
 
-	public void removerAVL(No atual, int k) {
+	public void removerAVL(No atual, Mercadoria chave) {
+		//o AVL tenta remover sem contrabalancear.
+		//ele começa pelo root, e depois chama recursivamente.
 		if (atual == null) {
 			return;
-
+			//se nó for vazio, não faz nada.
 		} else {
-
-			if (atual.getchave().getNumero() > k) {
-				removerAVL(atual.getEsquerda(), k);
-
-			} else if (atual.getchave().getNumero() < k) {
-				removerAVL(atual.getRight(), k);
-
-			} else if (atual.getchave().getNumero() == k) {
-				removerNoEncontrado(atual);
+			//método de busca binária, para maior, busca-se no lado direito, no menor, lado esquerdo.
+			if (atual.getchave().getLote() > chave.getLote()) {
+				removerAVL(atual.getEsquerda(), chave);
+			} else if (atual.getchave().getLote() < chave.getLote()) {
+				removerAVL(atual.getDireita(), chave);
+			} else if (atual.getchave().getLote() == chave.getLote()) {
+				deletarNo(atual);
+				//remove quando encontra. E se o lote for igual?
+				//...
 			}
 		}
 	}
 
-	public void removerNoEncontrado(No aRemover) {
+	public void deletarNo(No mr) {
+		//recebe mercadoria a ser removida, ou o nó dela.
 		No r;
-
-		if (aRemover.getEsquerda() == null || aRemover.getRight() == null) {
-
-			if (aRemover.getParent() == null) {
+		if (mr.getEsquerda() == null || mr.getDireita() == null) {
+			//caso o nó seja a raiz, remove.
+			if (mr.getpai() == null) {
 				this.root = null;
-				aRemover = null;
+				mr = null;
 				return;
 			}
-			r = aRemover;
+			r = mr;
+			//se apenas um nó folha.
 
 		} else {
-			r = sucessor(aRemover);
-			aRemover.setchave(r.getchave());
+			r = sucessor(mr);
+			//r é um nó q remove a mercadoria por um de seus sucessores.
+			mr.setchave(r.getchave());
+			//chama o sucessor para o nó removido.
 		}
 
-		No p;
-		if (r.getEsquerda() != null) {
+		No p;//pai.
+		if (r.getEsquerda() != null) 
 			p = r.getEsquerda();
-		} else {
-			p = r.getRight();
-		}
+			//
+		else 
+			p = r.getDireita();
 
-		if (p != null) {
-			p.setParent(r.getParent());
-		}
-
-		if (r.getParent() == null) {
+		if (p != null) 
+			p.setpai(r.getpai());
+		
+		else if (r.getpai() == null)
 			this.root = p;
-		} else {
-			if (r == r.getParent().getEsquerda()) {
-				r.getParent().setLeft(p);
+			//se o no a ser removido tiver a raiz como pai, troca
+		
+		else {
+			if (r == r.getpai().getEsquerda()) {
+				r.getpai().setEsquerda(p);
 			} else {
-				r.getParent().setRight(p);
+				r.getpai().setDireita(p);
 			}
-			verificarBalanceamento(r.getParent());
+			verificarBalanceamento(r.getpai());
 		}
-		r = null;
+		r = null;//o r acabou n usado.
 	}
 
 	public No rotacaoEsquerda(No inicial) {
 
-		No direita = inicial.getRight();
-		direita.setParent(inicial.getParent());
+		No direita = inicial.getDireita();
+		direita.setpai(inicial.getpai());
 
-		inicial.setRight(direita.getEsquerda());
+		inicial.setDireita(direita.getEsquerda());
 
-		if (inicial.getRight() != null) {
-			inicial.getRight().setParent(inicial);
+		if (inicial.getDireita() != null) {
+			inicial.getDireita().setpai(inicial);
 		}
 
-		direita.setLeft(inicial);
-		inicial.setParent(direita);
+		direita.setEsquerda(inicial);
+		inicial.setpai(direita);
 
-		if (direita.getParent() != null) {
+		if (direita.getpai() != null) {
 
-			if (direita.getParent().getRight() == inicial) {
-				direita.getParent().setRight(direita);
+			if (direita.getpai().getDireita() == inicial) {
+				direita.getpai().setDireita(direita);
 			
-			} else if (direita.getParent().getEsquerda() == inicial) {
-				direita.getParent().setLeft(direita);
+			} else if (direita.getpai().getEsquerda() == inicial) {
+				direita.getpai().setEsquerda(direita);
 			}
 		}
 
@@ -231,24 +242,24 @@ public class AVLTree {
 	public No rotacaoDireita(No inicial) {
 
 		No esquerda = inicial.getEsquerda();
-		esquerda.setParent(inicial.getParent());
+		esquerda.setpai(inicial.getpai());
 
-		inicial.setLeft(esquerda.getRight());
+		inicial.setEsquerda(esquerda.getDireita());
 
 		if (inicial.getEsquerda() != null) {
-			inicial.getEsquerda().setParent(inicial);
+			inicial.getEsquerda().setpai(inicial);
 		}
 
-		esquerda.setRight(inicial);
-		inicial.setParent(esquerda);
+		esquerda.setDireita(inicial);
+		inicial.setpai(esquerda);
 
-		if (esquerda.getParent() != null) {
+		if (esquerda.getpai() != null) {
 
-			if (esquerda.getParent().getRight() == inicial) {
-				esquerda.getParent().setRight(esquerda);
+			if (esquerda.getpai().getDireita() == inicial) {
+				esquerda.getpai().setDireita(esquerda);
 			
-			} else if (esquerda.getParent().getEsquerda() == inicial) {
-				esquerda.getParent().setLeft(esquerda);
+			} else if (esquerda.getpai().getEsquerda() == inicial) {
+				esquerda.getpai().setEsquerda(esquerda);
 			}
 		}
 
@@ -259,27 +270,28 @@ public class AVLTree {
 	}
 
 	public No duplaRotacaoEsquerdaDireita(No inicial) {
-		inicial.setLeft(rotacaoEsquerda(inicial.getEsquerda()));
+		inicial.setEsquerda(rotacaoEsquerda(inicial.getEsquerda()));
 		return rotacaoDireita(inicial);
 	}
 
 	public No duplaRotacaoDireitaEsquerda(No inicial) {
-		inicial.setRight(rotacaoDireita(inicial.getRight()));
+		inicial.setDireita(rotacaoDireita(inicial.getDireita()));
 		return rotacaoEsquerda(inicial);
 	}
 
 	public No sucessor(No q) {
-		if (q.getRight() != null) {
-			No r = q.getRight();
+		//nó qualquer.
+		if (q.getDireita() != null) {
+			No r = q.getDireita();
 			while (r.getEsquerda() != null) {
 				r = r.getEsquerda();
 			}
 			return r;
 		} else {
-			No p = q.getParent();
-			while (p != null && q == p.getRight()) {
+			No p = q.getpai();
+			while (p != null && q == p.getDireita()) {
 				q = p;
-				p = q.getParent();
+				p = q.getpai();
 			}
 			return p;
 		}
@@ -290,36 +302,44 @@ public class AVLTree {
 			return -1;
 		}
 
-		if (atual.getEsquerda() == null && atual.getRight() == null) {
+		if (atual.getEsquerda() == null && atual.getDireita() == null) {
 			return 0;
 		
 		} else if (atual.getEsquerda() == null) {
-			return 1 + altura(atual.getRight());
+			return 1 + altura(atual.getDireita());
 		
-		} else if (atual.getRight() == null) {
+		} else if (atual.getDireita() == null) {
 			return 1 + altura(atual.getEsquerda());
 		
 		} else {
-			return 1 + Math.max(altura(atual.getEsquerda()), altura(atual.getRight()));
+			return 1 + Math.max(altura(atual.getEsquerda()), altura(atual.getDireita()));
 		}
 	}
 
 	private void setBalanceamento(No No) {
-		No.setBalanceamento(altura(No.getRight()) - altura(No.getEsquerda()));
+		No.setBalanceamento(altura(No.getDireita()) - altura(No.getEsquerda()));
 	}
-
-	final protected ArrayList<No> iNorder() {
-		ArrayList<No> ret = new ArrayList<No>();
-		iNorder(root, ret);
-		return ret;
+	
+	public Iterator iterador(){
+		return new Iterador();
 	}
-
-	final protected void iNorder(No No, ArrayList<No> lista) {
-		if (No == null) {
-			return;
+	
+	private class Iterador implements Iterator{
+		private IQueue queue = new Queue();
+		
+		public Iterador(){
+			((Queue) queue).inserirFinal(root);
 		}
-		iNorder(No.getEsquerda(), lista);
-		lista.add(No);
-		iNorder(No.getRight(), lista);
+		public boolean hasNext(){
+			return !queue.estaVazia();
+		}
+		public Object next(){
+			No n = (No) queue.removerInicio();
+			if(n.getEsquerda()!=null) 
+				((Queue) queue).inserirFinal(n.getEsquerda());
+			else if(n.getDireita()!=null) 
+				((Queue) queue).inserirFinal(n.getDireita());
+			return n;
+		}
 	}
 }

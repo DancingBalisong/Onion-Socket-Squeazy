@@ -2,38 +2,39 @@
 package model;
 
 public class Mercadoria {
-
-    private String lote;	
-    private String Endereco;//o numero chave
+	
+    private int lote;
+    private String endereco;
     private String bloco;
     private String numero;
     private String fornecedor;
     private String data;
     private String hora;
     
-    public Mercadoria(String l, String e, String b, String n, String f, String d, String h){
-	    
+    public Mercadoria(int l, String e, String b, String n, String f, String d, String h){
     	this.lote = l;
-	this.endereco = e;
+    	this.setEndereco(e);
     	this.bloco = b;
-	this.numero = n;
+    	this.numero = n;
     	this.fornecedor = f;
     	this.data = d;
     	this.hora = h;
     }
-    public String (){
-    	return this.lote + ";" + this.endereco + ";" + this.bloco + ";" + this.numero + ";" + this.fornecedor + ";" + this.data + ";" + this.hora;
+    
+    public String toString(){
+    	return "" + this.lote + ";" + this.endereco + ";" + this.bloco + ";" + this.numero + ";" + this.fornecedor + ";" + this.data + ";" + this.getHora();
     }
+    
 	public String getBloco() {
 		return bloco;
 	}
 	public void setBloco(String bloco) {
 		this.bloco = bloco;
 	}
-	public String getLote() {
+	public int getLote() {
 		return lote;
 	}
-	public void setLote(String lote) {
+	public void setLote(int lote) {
 		this.lote = lote;
 	}
 	public String getFornecedor() {
@@ -53,5 +54,21 @@ public class Mercadoria {
 	}
 	public void setHora(String hora) {
 		this.hora = hora;
+	}
+
+	public String getNumero() {
+		return numero;
+	}
+
+	public void setNumero(String numero) {
+		this.numero = numero;
+	}
+
+	public String getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(String endereco) {
+		this.endereco = endereco;
 	}
 }

@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import Util.AVLTree;
+import Util.Iterator;
 import model.Mercadoria;
 
 public class Controller {
@@ -49,15 +50,17 @@ public class Controller {
                String words[] = linha.split(";");//divide a string/frase onde tem -;- e coloca em words, as strings distam -;- de uma a outra.
                for(int i = 0; i < 6; i++){//são 6 atributos
             	   if(i == 0){
-            		  temp[j].setLote(words[i]);
-            	   }else if(i == 1){
-            		  temp[j].setBloco(words[i]);
-            	   }else if(i == 2){
             		  int k = Integer.parseInt(words[i]);//mudar String para int
-            		  temp[j].setNumero(k);
+            		  temp[j].setLote(k);
+            	   }else if(i == 1){
+            		   temp[j].setBloco(words[i]);
+            	   }else if(i == 2){
+            		  temp[j].setBloco(words[i]);
             	   }else if(i == 3){
-            		  temp[j].setFornecedor(words[i]);
+            		  temp[j].setNumero(words[i]);
             	   }else if(i == 4){
+            		  temp[j].setFornecedor(words[i]);
+            	   }else if(i == 5){
             		  temp[j].setData(words[i]);
             	   }else
             		  temp[j].setHora(words[i]);
@@ -87,24 +90,58 @@ public class Controller {
 	
 	public void escreverNoArquivo() throws IOException{
 		Mercadoria[] org = organizarMercadorias();
-		try{
-			FileWriter escritor = new FileWriter("teste.csv");
-			BufferedWriter escreverKayden = new BufferedWriter(escritor);
-			String suporte = "";
-			String[] produto = null;
-			for(int i = 0; i < org.length; i++){//são 6 atributos
-				produto[i] = org[i].getLote() + ";" + org[i].getBloco() + ";" + org[i].getNumero() + ";" + org[i].getFornecedor()  + ";" + org[i].getData() + ";" + org[i].getHora();//em cada posição tem uma frase
-				suporte = produto[i];
-				escreverKayden.write(suporte);
-				escreverKayden.newLine();
-				escreverKayden.flush();
-				suporte = "";
-	        }
-			escreverKayden.close();
+		
+		FileWriter escritor = new FileWriter("teste.csv");
+		BufferedWriter escrever = new BufferedWriter(escritor);
+		String suporte = "";
+		String[] produto = null;
+		for(int i = 0; i < org.length; i++){//são 6 atributos
+			produto[i] = org[i].getLote() + ";" + org[i].getEndereco() + ";" + org[i].getBloco() + ";" + org[i].getNumero() + ";" + org[i].getFornecedor()  + ";" + org[i].getData() + ";" + org[i].getHora();//em cada posição tem uma frase
+			suporte = produto[i];
+			escrever.write(suporte);
+			escrever.newLine();
+			escrever.flush();
+			suporte = "";
+        }
+		escrever.close();
+	
+	}
+	
+	public boolean testeDasChaves(Mercadoria teste, int l, String e, String b, String n, String f){
+		if(l == teste.getLote()){
+			if(e.compareTo(teste.getEndereco()) == 0){
+				if(b.compareTo(teste.getBloco()) == 0){
+					if(n.compareTo(teste.getNumero()) == 0){
+						if(f.compareTo(teste.getFornecedor()) == 0){
+							return true;
+						}else
+							return false;
+					}else
+						return false;
+				}else
+					return false;
+			}else
+				return false;
+		}else
+			return false;
+	}
+	
+	public void removerDaArvore(Mercadoria chave){
+		sequoia.remover(chave);
+	}
+	
+	public Mercadoria buscarMercadoria(Mercadoria m, int l, String e, String b, String n, String f){
+		Mercadoria teste;
+		Iterator pass = sequoia.iterador();
+		if(m != null){
+			while(pass.hasNext()){
+				teste = (Mercadoria) pass.next();
+				if(testeDasChaves(teste, l, e, b, n, f)){
+					return teste;
+				}
+			}
 		}
-		catch(IOException e){
-			
-		}
+		return null;
 	}
 	
 	private Mercadoria[] organizarMercadorias() {
