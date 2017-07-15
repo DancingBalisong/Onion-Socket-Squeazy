@@ -43,6 +43,15 @@ public class Controller {
         return null;
     }
     
+	/** 
+    * le primeira linha, recebe o valor "null" quando o processo de repeticao atingir o final do arquivo de texto
+    * enquanto nao acabarem as linhas
+    * divide a string/frase onde tem -;- e coloca em words, as strings distam -;- de uma a outra.
+    * são 6 atributos
+    * muda String para int
+    * le da segunda em diante
+    * muda a posilção do vetor de mercadorias
+    */
 	public Mercadoria[] transferirArquivoNoVetor() throws IOException{//usa o leitor
             BufferedReader leitor = leituraDeArquivo();
             int contador = contarMercadorias();
