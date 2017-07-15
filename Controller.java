@@ -171,25 +171,15 @@ public class Controller {
                                        // de repeticao atingir o final do arquivo de texto
 
             
-                                       
-            /////////// Tem a mesma funÃ§Ã£o que a estrutura abaixo (sÃ³ existe pra 1a linha do arquivo)
-            String palav[] = linha.split(" ");//divide onde tem espaÃ§o e coloca em palav
-              
             quantDeLinhas++;
-            System.out.printf("%s\n", linha);//imprime a linha
              
             while (linha != null){//enquanto nÃ£o acabarem as linhas
               
               quantDeLinhas++;//conta o numero de linhas
-              String words[] = linha.split(" ");//divide onde tem espaÃ§o e coloca em words
               linha = lerArq.readLine(); // lÃª da segunda em diante
               
-              System.out.printf("%s\n", linha);//imprime a linha
+            }
               
-              
-        }
-              
-            System.out.printf("\nA quantidade de linhas desse arquivo Ã© de: %d\n", quantDeLinhas);
             arq.close();
         
         }
