@@ -43,7 +43,7 @@ public class Controller {
         return null;
     }
     
-	/** 
+    /** 
     * le primeira linha, recebe o valor "null" quando o processo de repeticao atingir o final do arquivo de texto
     * enquanto nao acabarem as linhas
     * divide a string/frase onde tem -;- e coloca em words, as strings distam -;- de uma a outra.
@@ -88,104 +88,114 @@ public class Controller {
             return null;
         }
 	
-	public void inserirNaArvore() throws IOException{
-		Mercadoria[] lote = transferirArquivoNoVetor();
-		if(lote != null){
-			for(int i = 0; i < lote.length; i++){
-				salgueiroLutador.inserir(lote[i]);//cria nos com os numeros das mercadorias
-			}
-			lote = null;//esvazia o vetor
-		}
-	}
-	
-	public Iterator listarDadosDaArvore(){
-            Iterator pass = salgueiroLutador.iterador();
-            return pass;
-	}
-	
-	public void escreverNoArquivo() throws IOException{
-		Mercadoria[] org = organizarMercadorias();
-		
-		FileWriter escritor = new FileWriter("teste.csv");
-		BufferedWriter escrever = new BufferedWriter(escritor);
-		String suporte = "";
-		String[] produto = null;
-		for(int i = 0; i < org.length; i++){//são 6 atributos
-                    produto[i] = org[i].getLote() + ";" + org[i].getEndereco() + ";" + org[i].getBloco() + ";" + org[i].getNumero() + ";" + org[i].getFornecedor()  + ";" + org[i].getData() + ";" + org[i].getHora();//em cada posição tem uma frase
-                    suporte = produto[i];
-                    escrever.write(suporte);
-                    escrever.newLine();
-                    escrever.flush();
-                    suporte = "";
-        }
-		escrever.close();
-	
-	}
-	
-	public boolean testeDasChaves(Mercadoria teste, int l, String e, String b, String n, String f){
-		if(l == teste.getLote()){
-			if(e.compareTo(teste.getEndereco()) == 0){
-				if(b.compareTo(teste.getBloco()) == 0){
-					if(n.compareTo(teste.getNumero()) == 0){
-						if(f.compareTo(teste.getFornecedor()) == 0){
-							return true;
-						}else
-							return false;
-					}else
-						return false;
-				}else
-					return false;
-			}else
-				return false;
-		}else
-			return false;
-	}
-	
-	public void removerDaArvore(Mercadoria chave){
-		salgueiroLutador.remover(chave);
-	}
-	
-	public Mercadoria buscarMercadoria(Mercadoria m, int l, String e, String b, String n, String f){
-            Mercadoria teste;
-            Iterator pass = salgueiroLutador.iterador();
-            if(m != null){
-                while(pass.hasNext()){
-                    teste = (Mercadoria) pass.next();
-                    if(testeDasChaves(teste, l, e, b, n, f)){
-                        return teste;
+     /**
+     * cria nos com os numeros das mercadorias
+     * esvazia o vetor
+     */
+    public void inserirNaArvore() throws IOException{
+            Mercadoria[] lote = transferirArquivoNoVetor();
+            if(lote != null){
+                    for(int i = 0; i < lote.length; i++){
+                            salgueiroLutador.inserir(lote[i]);
                     }
+                    lote = null;
+            }
+    }
+
+    public Iterator listarDadosDaArvore(){
+        Iterator pass = salgueiroLutador.iterador();
+        return pass;
+    }
+
+    public void escreverNoArquivo() throws IOException{
+            Mercadoria[] org = organizarMercadorias();
+
+            FileWriter escritor = new FileWriter("teste.csv");
+            BufferedWriter escrever = new BufferedWriter(escritor);
+            String suporte = "";
+            String[] produto = null;
+            for(int i = 0; i < org.length; i++){//são 6 atributos
+                produto[i] = org[i].getLote() + ";" + org[i].getEndereco() + ";" + org[i].getBloco() + ";" + org[i].getNumero() + ";" + org[i].getFornecedor()  + ";" + org[i].getData() + ";" + org[i].getHora();//em cada posição tem uma frase
+                suporte = produto[i];
+                escrever.write(suporte);
+                escrever.newLine();
+                escrever.flush();
+                suporte = "";
+    }
+            escrever.close();
+
+    }
+
+    public boolean testeDasChaves(Mercadoria teste, int l, String e, String b, String n, String f){
+            if(l == teste.getLote()){
+                    if(e.compareTo(teste.getEndereco()) == 0){
+                            if(b.compareTo(teste.getBloco()) == 0){
+                                    if(n.compareTo(teste.getNumero()) == 0){
+                                            if(f.compareTo(teste.getFornecedor()) == 0){
+                                                    return true;
+                                            }else
+                                                    return false;
+                                    }else
+                                            return false;
+                            }else
+                                    return false;
+                    }else
+                            return false;
+            }else
+                    return false;
+    }
+
+    public void removerDaArvore(Mercadoria chave){
+            salgueiroLutador.remover(chave);
+    }
+
+    public Mercadoria buscarMercadoria(Mercadoria m, int l, String e, String b, String n, String f){
+        Mercadoria teste;
+        Iterator pass = salgueiroLutador.iterador();
+        if(m != null){
+            while(pass.hasNext()){
+                teste = (Mercadoria) pass.next();
+                if(testeDasChaves(teste, l, e, b, n, f)){
+                    return teste;
                 }
             }
+        }
+        return null;
+    }
+
+    private Mercadoria[] organizarMercadorias() {
             return null;
-	}
-	
-	private Mercadoria[] organizarMercadorias() {
-		return null;
-	}
+    }
 
 	
     
     
-    //////////////////////////////////////////////////////////////////////////
+    /**
+     * conta o nº de linhas do arquivo
+     * le a primeira linha
+     * a variavel "linha" recebe o valor "null" quando o processo de repeticao atingir o final do arquivo de texto
+     * enquanto não acabarem as linhas
+     * conta o numero de linhas
+     * lê da segunda em diante
+     */
     
-    public int contarMercadorias(){//conta o nº de linhas do arquivo
+    public int contarMercadorias(){
         String  linha;
         int quantDeLinhas = 0;
         try {
             FileReader arq = new FileReader("C:\\Users\\Usuario\\Documents\\NetBeansProjects\\Arquivo\\arquivo.txt");
             BufferedReader lerArq = new BufferedReader(arq);
 
-            linha = lerArq.readLine(); // le a primeira linha
-                                       // a variavel "linha" recebe o valor "null" quando o processo
-                                       // de repeticao atingir o final do arquivo de texto
+            linha = lerArq.readLine(); 
+                                       
 
             
             quantDeLinhas++;
              
-            while (linha != null){//enquanto nÃ£o acabarem as linhas
+            while (linha != null){
               
-              quantDeLinhas++;//conta o numero de linhas
-              linha = lerArq.readLine(); // lÃª da segunda em diante
+              quantDeLinhas++;
+              linha = lerArq.readLine(); 
               
             }
               
