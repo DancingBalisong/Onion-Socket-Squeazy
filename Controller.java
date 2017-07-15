@@ -20,9 +20,13 @@ public class Controller {
     }
     
     /**
-     *
-     * @return
-     * @throws IOException
+     * esse metodo retorna o leitor do arquivo
+     * pega um diretorio
+     * arq recebe o diretorio do arquivo txt
+     * o try/catch trata um possível erro de abertura do arquivo
+     * lerArq recebe o aquivo (proviniente de arq)
+     * retorna o lerArq (para ser usado por outro método)
+     * fecha o arquivo
      */
     public static BufferedReader leituraDeArquivo() throws IOException{//esse metodo retorna o leitor do arquivo
     	String diretorio = "C:\\Users\\Usuario\\Documents\\NetBeansProjects\\Arquivo\\arquivo.txt";//OU pode vir de um outro metodo, depende do teste.
