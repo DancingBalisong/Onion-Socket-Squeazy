@@ -186,11 +186,20 @@ public class AVLTree {
 			}
 		}
 	}
+	
+	
+	/**
+         * recebe mercadoria a ser removida, ou o nó dela.
+         * caso o nó seja a raiz, remove.
+         * r é um nó q remove a mercadoria por um de seus sucessores.
+         * chama o sucessor para o nó removido.
+         * se o no a ser removido tiver a raiz como pai, troca
+         */
 	public void deletarNo(No mr) {
-		//recebe mercadoria a ser removida, ou o nó dela.
+		
 		No r;
 		if (mr.getEsquerda() == null || mr.getDireita() == null) {
-			//caso o nó seja a raiz, remove.
+			
 			if (mr.getpai() == null) {
 				this.root = null;
 				mr = null;
@@ -201,9 +210,9 @@ public class AVLTree {
 
 		} else {
 			r = sucessor(mr);
-			//r é um nó q remove a mercadoria por um de seus sucessores.
+			
 			mr.setchave(r.getchave());
-			//chama o sucessor para o nó removido.
+			
 		}
 
 		No p;//pai.
@@ -218,7 +227,7 @@ public class AVLTree {
 		
 		else if (r.getpai() == null)
 			this.root = p;
-			//se o no a ser removido tiver a raiz como pai, troca
+			
 		
 		else {
 			if (r == r.getpai().getEsquerda()) {
@@ -230,7 +239,6 @@ public class AVLTree {
 		}
 		r = null;//o r acabou n usado.
 	}
-
 	public No rotacaoEsquerda(No inicial) {
 
 		No direita = inicial.getDireita();
