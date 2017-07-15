@@ -160,14 +160,21 @@ public class AVLTree {
 		removerAVL(this.root, chave);
 	}
 
+	/**
+         * o AVL tenta remover sem contrabalancear.
+         * ele começa pelo root, e depois chama recursivamente.
+         * se nó for vazio, não faz nada.
+         * método de busca binária, para maior, busca-se no lado direito, no menor, lado esquerdo.
+         * 
+         */
 	public void removerAVL(No atual, Mercadoria chave) {
-		//o AVL tenta remover sem contrabalancear.
-		//ele começa pelo root, e depois chama recursivamente.
+		
+		
 		if (atual == null) {
 			return;
-			//se nó for vazio, não faz nada.
+			
 		} else {
-			//método de busca binária, para maior, busca-se no lado direito, no menor, lado esquerdo.
+			
 			if (atual.getchave().getLote() > chave.getLote()) {
 				removerAVL(atual.getEsquerda(), chave);
 			} else if (atual.getchave().getLote() < chave.getLote()) {
@@ -179,7 +186,6 @@ public class AVLTree {
 			}
 		}
 	}
-
 	public void deletarNo(No mr) {
 		//recebe mercadoria a ser removida, ou o nó dela.
 		No r;
