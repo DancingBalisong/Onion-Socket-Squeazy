@@ -185,15 +185,19 @@ public class ControllerTest {
     /**
      * Test of contarMercadorias method, of class Controller.
      */
-    @Test
-    public void testContarMercadorias() {
-        System.out.println("contarMercadorias");
-        Controller instance = new Controller();
-        int expResult = 0;
-        int result = instance.contarMercadorias();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+   @Test
+    public void testContarMercadorias() throws IOException {
+        String  linha;
+        int quantDeLinhas = 0;
+        
+        FileReader arq = new FileReader("C:\\Users\\Usuario\\Documents\\NetBeansProjects\\Arquivo\\arquivo.txt");
+        BufferedReader lerArq = new BufferedReader(arq);
+        
+        linha = lerArq.readLine();
+        
+        quantDeLinhas++;
+        
+        assertEquals("So tem uma linha", 1, quantDeLinhas);
     }
     
 }
