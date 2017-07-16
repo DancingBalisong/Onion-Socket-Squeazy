@@ -26,10 +26,7 @@ public class Controller {
 			arq = new FileReader(diretorio);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
-	        System.err.printf("Erro na abertura do arquivo: %s.\n",
-	          e.getMessage());
-	    }
+		}
         BufferedReader lerArq = new BufferedReader(arq);
         if(arq != null){
         	return lerArq;
@@ -92,10 +89,8 @@ public class Controller {
 		FileWriter escritor = new FileWriter("teste.csv");
 		BufferedWriter escrever = new BufferedWriter(escritor);
 		String suporte = "";
-		String[] produto = null;
-		for(int i = 0; i < org.length; i++){//são 6 atributos
-			produto[i] = org[i].pegarLinha() ;//em cada posição tem uma frase
-			suporte = produto[i];
+		for(int i = 0; i < org.length; i++){//são 7 atributos
+			suporte = org[i].pegarLinha() ;//em cada posição tem uma frase
 			escrever.write(suporte);
 			escrever.newLine();
 			escrever.flush();
@@ -115,90 +110,37 @@ public class Controller {
 			return salgueiroLutador.buscar(m);
 	}
 	
-	
 	private Mercadoria[] organizarMercadorias() {
-		return null;
+		int contador = contarMercadorias();
+		int i = 0;
+		Mercadoria[] auxiliar = new Mercadoria[contador];
+		Iterator passador = listarDadosDaArvore();
+		while(passador.hasNext()){
+        	Mercadoria n = (Mercadoria) passador.next();
+        	auxiliar[i] = n;
+        	i++;
+	    }
+		return auxiliar;
 	}
 
-	public Mercadoria buscarMercadoria(String lote, String bloco, String fornecedor){//ira retornar os dados da linha desejada do arquivo
-    
-        /*
-        String  linha;
-        try {
-            FileReader arq = new FileReader("arquivoTest.txt");
-            BufferedReader lerArq = new BufferedReader(arq);
-           
-			
-            linha = lerArq.readLine(); // lê a primeira linha. A variavel "linha" recebe o valor "null" quando o laço atingir o final do arquivo de texto.
-            String palav[] = linha.split(",");//divide onde tem -;- e coloca em palav.
-            while (linha != null){//enquanto nao acabarem as linhas
-               String words[] = linha.split(";");//divide onde tem espaÃ§o e coloca em words, as strings distam -;- de uma a outra.
-               linha = lerArq.readLine(); // le da segunda em diante
-              
-               if(end.equals(palav[0]) && forn.equals(palav[4]){//compara o endereco e o fornecedor aos do arquivo
-                  //retorna os dados que estÃ£o nessa linha do arquivo
-               }
-            }
-              
-            System.out.printf("\nA quantidade de linhas desse arquivo Ã© de: %d\n", quantDeLinhas);
-            System.out.println("A quantidade de vezes que a palavra '" + nome + "' aparece Ã©: " + quantPalavras);
-            arq.close();
-        
-        }
-        
-        catch (IOException e) {
-        System.err.printf("Erro na abertura do arquivo: %s.\n",
-          e.getMessage());
-        }
-        */
-        return null;
-    }
-    
-    
-    //////////////////////////////////////////////////////////////////////////
-    
     public int contarMercadorias(){//conta o nº de linhas do arquivo
         String  linha;
         int quantDeLinhas = 0;
         try {
-            FileReader arq = new FileReader("C:\\Users\\Usuario\\Documents\\NetBeansProjects\\Arquivo\\arquivo.txt");
+            FileReader arq = new FileReader("arquivo.txt");
             BufferedReader lerArq = new BufferedReader(arq);
-
-            linha = lerArq.readLine(); // le a primeira linha
-                                       // a variavel "linha" recebe o valor "null" quando o processo
-                                       // de repeticao atingir o final do arquivo de texto
-
-            
-                                       
-            /////////// Tem a mesma funÃ§Ã£o que a estrutura abaixo (sÃ³ existe pra 1a linha do arquivo)
-            String palav[] = linha.split(" ");//divide onde tem espaÃ§o e coloca em palav
-              
+            linha = lerArq.readLine(); 
             quantDeLinhas++;
-            System.out.printf("%s\n", linha);//imprime a linha
-             
-            while (linha != null){//enquanto nÃ£o acabarem as linhas
-              
+            while (linha != null){//enquanto nao acabarem as linhas
               quantDeLinhas++;//conta o numero de linhas
-              String words[] = linha.split(" ");//divide onde tem espaÃ§o e coloca em words
-              linha = lerArq.readLine(); // lÃª da segunda em diante
-              
-              System.out.printf("%s\n", linha);//imprime a linha
-              
-              
-        }
-              
-            System.out.printf("\nA quantidade de linhas desse arquivo Ã© de: %d\n", quantDeLinhas);
+              linha = lerArq.readLine(); // le da segunda em diante
+            }
             arq.close();
-        
         }
-        
         catch (IOException e) {
         System.err.printf("Erro na abertura do arquivo: %s.\n",
           e.getMessage());
         }
         return quantDeLinhas;
     }
-    
-    
-    
-}
+}//da classe

@@ -347,13 +347,14 @@ public class AVLTree {
 			return !queue.estaVazia();
 		}
 		
-		public Object next(){
+		public Mercadoria next(){
 			No n = (No) queue.removerInicio();
 			if(n.getEsquerda()!=null) 
 				queue.inserirFinal(n.getEsquerda());
-			else if(n.getDireita()!=null) 
+			
+			if(n.getDireita()!=null) 
 				queue.inserirFinal(n.getDireita());
-			return n;
+			return n.getchave();
 		}
 	}
 }
