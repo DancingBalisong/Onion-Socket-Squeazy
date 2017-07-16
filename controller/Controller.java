@@ -147,6 +147,12 @@ public class Controller {
     /**
      * recebe um objeto de Mercadoria e as chaves para serem comparadas
      * utiliza o compareTo() para comparar as chaves da mercadoria recebida com os atributos restantes
+     * @param teste
+     * @param l
+     * @param e
+     * @param b
+     * @param n
+     * @param f
      */
     public boolean testeDasChaves(Mercadoria teste, int l, String e, String b, String n, String f){
             if(l == teste.getLote()){
@@ -171,6 +177,7 @@ public class Controller {
     /**
      * chama o metodo de remoção existente na classe AVLTree
      * manda a chave para esse método istanciado pelo objeto "salgueiroLutador"
+     * @param chave 
      */
     public void removerDaArvore(Mercadoria chave){
             salgueiroLutador.remover(chave);
@@ -181,6 +188,13 @@ public class Controller {
      * instancia um objeto de Mercadoria e do Iterator
      * enquanto não chegar ao fim da árvore, continua passando
      * compara em cada loop os dados da mercadoria usando o método testeDasChaves
+     * @param m
+     * @param l
+     * @param e
+     * @param b
+     * @param n
+     * @param f
+     * @return 
      */
     public Mercadoria buscarMercadoria(Mercadoria m, int l, String e, String b, String n, String f){
         Mercadoria teste;
