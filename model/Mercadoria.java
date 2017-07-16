@@ -25,6 +25,10 @@ public class Mercadoria {
     	return "" + this.lote + ";" + this.endereco + ";" + this.bloco + ";" + this.numero + ";" + this.fornecedor + ";" + this.data + ";" + this.getHora();
     }
     
+        /**
+        * getters e setters de Mercadoria
+        */
+
 	public String getBloco() {
 		return bloco;
 	}
