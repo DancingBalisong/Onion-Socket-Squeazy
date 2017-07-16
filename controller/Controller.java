@@ -134,6 +134,10 @@ public class Controller {
 
     }
 
+    /**
+     * recebe um objeto de Mercadoria e as chaves para serem comparadas
+     * utiliza o compareTo() para comparar as chaves da mercadoria recebida com os atributos restantes
+     */
     public boolean testeDasChaves(Mercadoria teste, int l, String e, String b, String n, String f){
             if(l == teste.getLote()){
                     if(e.compareTo(teste.getEndereco()) == 0){
