@@ -1,3 +1,13 @@
+/***************************
+Autor: Rafael das quebrada e Igor Garcia
+Componente Curricular: 
+Conclu√≠do em: 16/07/2017
+Declaro que este c√≥digo foi elaborado por n√≥s de forma individual e n√£o cont√©m nenhum
+trecho de c√≥digo de outro colega ou de outro autor, tais como provindos de livros e
+apostilas, e p√°ginas ou documentos eletr√¥nicos da Internet. Qualquer trecho de c√≥digo
+de outra autoria que n√£o a minha est√° destacado com uma cita√ß√£o para o autor e a fonte
+do c√≥digo, e estamos cientes que estes trechos n√£o ser√£o considerados para fins de avalia√ß√£o.
+******************************/
 package Util;
 import model.Mercadoria;
 
@@ -10,12 +20,12 @@ public class AVLTree {
         private No esquerda;
 		private No direita;
 		private No pai;
-		private Mercadoria chave;//chave È um endereÁo de mercadoria.
-		private int balanceamento;//para balancear, È necess·rio que o valor do nÛ da arvore/sub-arvore esteja entre [-1,1].
+		private Mercadoria chave;//chave √© um endere√ßo de mercadoria.
+		private int balanceamento;//para balancear, √© necess√°rio que o valor do n√≥ da arvore/sub-arvore esteja entre [-1,1].
 	
 		public No(Mercadoria chave) {
-			setEsquerda(setDireita(setpai(null)));//n„o tem pai
-			setBalanceamento(0);//a raiz inserida no inicio È sempre balanceada.
+			setEsquerda(setDireita(setpai(null)));//n√£o tem pai
+			setBalanceamento(0);//a raiz inserida no inicio √© sempre balanceada.
 			setchave(chave);//insere o
 		}
 	
@@ -72,19 +82,19 @@ public class AVLTree {
 			this.root = inserir;//o primerio item inserido se torna a raiz.
 		} else {
 			if (inserir.getchave().pegarLinha().compareTo(comparar.getchave().pegarLinha()) < 0) {
-				//se o lote do filho for menor que o lote da mercadoria pai, o lote ser· inserido na esquerda.
+				//se o lote do filho for menor que o lote da mercadoria pai, o lote ser√° inserido na esquerda.
 				if (comparar.getEsquerda().equals(null)) {
 					comparar.setEsquerda(inserir);//seta a mercadoria como filho da esquerda
 					inserir.setpai(comparar);//seta o pai da mercadoria inserida
 					verificarBalanceamento(comparar);//checa o balanceamento
-					//caso o filho da esquerda n„o tenha filho, insere no lugar.
+					//caso o filho da esquerda n√£o tenha filho, insere no lugar.
 				} else {
-					//se n„o, chama recursivamente atÈ achar um nÛ vazio.
+					//se n√£o, chama recursivamente at√© achar um n√≥ vazio.
 					inserirBalanceado(comparar.getEsquerda(), inserir);
 				}
 
 			} else if (inserir.getchave().pegarLinha().compareTo(comparar.getchave().pegarLinha()) > 0) {
-				//se o lote do filho for maior que o lote da mercadoria pai, o lote ser· inserido na direita.
+				//se o lote do filho for maior que o lote da mercadoria pai, o lote ser√° inserido na direita.
 				if (comparar.getDireita() == null) {
 					comparar.setDireita(inserir);
 					inserir.setpai(comparar);
@@ -94,7 +104,7 @@ public class AVLTree {
 					inserirBalanceado(comparar.getDireita(), inserir);
 				}
 			} else {
-				// O nÛ j· existe, pq j· existe a chave
+				// O n√≥ j√° existe, pq j√° existe a chave
 			}
 		}
 	}
@@ -136,12 +146,12 @@ public class AVLTree {
 
 	public void removerAVL(No atual, Mercadoria chave) {
 		//o AVL tenta remover sem contrabalancear.
-		//ele comeÁa pelo root, e depois chama recursivamente.
+		//ele come√ßa pelo root, e depois chama recursivamente.
 		if (atual == null) {
 			return;
-			//se nÛ for vazio, n„o faz nada.
+			//se n√≥ for vazio, n√£o faz nada.
 		} else {
-			//mÈtodo de busca bin·ria, para maior, busca-se no lado direito, no menor, lado esquerdo. Recursivo.
+			//m√©todo de busca bin√°ria, para maior, busca-se no lado direito, no menor, lado esquerdo. Recursivo.
 			if ((atual.getchave().pegarLinha().compareTo(chave.pegarLinha()) > 0)) {
 				removerAVL(atual.getEsquerda(), chave);
 			} else if (atual.getchave().pegarLinha().compareTo(chave.pegarLinha()) < 0) {
@@ -154,23 +164,23 @@ public class AVLTree {
 	}
 
 	public void deletarNo(No mr) {
-		//recebe mercadoria a ser removida, ou o nÛ dela.
+		//recebe mercadoria a ser removida, ou o n√≥ dela.
 		No r;
 		if (mr.getEsquerda() == null || mr.getDireita() == null) {
-			//caso o nÛ seja a raiz, remove.
+			//caso o n√≥ seja a raiz, remove.
 			if (mr.getpai() == null) {
 				this.root = null;
 				mr = null;
 				return;
 			}
 			r = mr;
-			//se apenas um nÛ folha.
+			//se apenas um n√≥ folha.
 
 		} else {
 			r = sucessor(mr);
-			//r È um nÛ q remove a mercadoria por um de seus sucessores.
+			//r √© um n√≥ q remove a mercadoria por um de seus sucessores.
 			mr.setchave(r.getchave());
-			//chama o sucessor para o nÛ removido.
+			//chama o sucessor para o n√≥ removido.
 		}
 
 		No p;//pai.
@@ -206,7 +216,7 @@ public class AVLTree {
 		if (daBusca == null) {
 			return null;
 		} else {
-			//mÈtodo de busca bin·ria, para maior, busca-se no lado direito, no menor, lado esquerdo. Recursivo.
+			//m√©todo de busca bin√°ria, para maior, busca-se no lado direito, no menor, lado esquerdo. Recursivo.
 			if ((daBusca.getchave().pegarLinha().compareTo(buscada.pegarLinha()) > 0)) {
 				buscarBinariamente(daBusca.getEsquerda(), buscada);
 			} else if (daBusca.getchave().pegarLinha().compareTo(buscada.pegarLinha()) < 0) {
@@ -290,7 +300,7 @@ public class AVLTree {
 	}
 
 	public No sucessor(No q) {
-		//nÛ qualquer.
+		//n√≥ qualquer.
 		if (q.getDireita() != null) {
 			No r = q.getDireita();
 			while (r.getEsquerda() != null) {
@@ -314,13 +324,13 @@ public class AVLTree {
 		//se a raiz n existir, retorna -1.
 		if (atual.getEsquerda() == null && atual.getDireita() == null) {
 			return 0;
-		//sÛ a raiz
+		//s√≥ a raiz
 		} else if (atual.getEsquerda() == null) {
 			return 1 + altura(atual.getDireita());
-		//SomatÛrio da altura pelos nÛs da direita
+		//Somat√≥rio da altura pelos n√≥s da direita
 		} else if (atual.getDireita() == null) {
 			return 1 + altura(atual.getEsquerda());
-		//SomatÛrio da altura pelo nÛs da esquerda
+		//Somat√≥rio da altura pelo n√≥s da esquerda
 		} else {
 			return 1 + Math.max(altura(atual.getEsquerda()), altura(atual.getDireita()));
 		}
@@ -328,7 +338,7 @@ public class AVLTree {
 	
 	private void setBalanceamento(No No) {
 		No.setBalanceamento(altura(No.getDireita()) - altura(No.getEsquerda()));
-		//seta o balanceamento pela subtraÁ„o das alturas das subarvores.
+		//seta o balanceamento pela subtra√ß√£o das alturas das subarvores.
 	}
 	
 	public Iterator iterador(){
