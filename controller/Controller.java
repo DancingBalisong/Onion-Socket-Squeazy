@@ -162,6 +162,12 @@ public class Controller {
             salgueiroLutador.remover(chave);
     }
 
+    /**
+     * o método recebe os parâmetros de Mercadoria
+     * instancia um objeto de Mercadoria e do Iterator
+     * enquanto não chegar ao fim da árvore, continua passando
+     * compara em cada loop os dados da mercadoria usando o método testeDasChaves
+     */
     public Mercadoria buscarMercadoria(Mercadoria m, int l, String e, String b, String n, String f){
         Mercadoria teste;
         Iterator pass = salgueiroLutador.iterador();
