@@ -1,6 +1,6 @@
 /***************************
 Autor: Rafael Araújo e Igor Garcia
-Componente Curricular: 
+Componente Curricular: MI programação 
 Concluído em: 16/07/2017
 Declaro que este código foi elaborado por nós de forma individual e não contém nenhum
 trecho de código de outro colega ou de outro autor, tais como provindos de livros e
