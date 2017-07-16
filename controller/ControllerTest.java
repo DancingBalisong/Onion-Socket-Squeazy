@@ -1,3 +1,13 @@
+/***************************
+Autor: Rafael Araújo e Igor Garcia
+Componente Curricular: MI programação 
+Concluído em: 16/07/2017
+Declaro que este código foi elaborado por nós de forma individual e não contém nenhum
+trecho de código de outro colega ou de outro autor, tais como provindos de livros e
+apostilas, e páginas ou documentos eletrônicos da Internet. Qualquer trecho de código
+de outra autoria que não a minha está destacado com uma citação para o autor e a fonte
+do código, e estamos cientes que estes trechos não serão considerados para fins de avaliação.
+******************************/
 package controller;
 
 import java.io.BufferedReader;
@@ -52,7 +62,7 @@ public class ControllerTest {
     public void testTransferirArquivoNoVetor() throws Exception {
         Mercadoria [] test = {new Mercadoria("a","a","a","a","a","a","a"), new Mercadoria("b","b","b","b","b","b","b")};
         Mercadoria m = new Mercadoria("a","a","a","a","a","a","a");
-        assertEquals("O lote � 1.",m.getLote(), test[0].getLote());
+        assertEquals("O lote é 1.",m.getLote(), test[0].getLote());
     }
 
     @Test
@@ -62,7 +72,7 @@ public class ControllerTest {
         Iterator passador = c.salgueiroLutador.iterador();
         Mercadoria x = (Mercadoria) passador.next();
         assertEquals(x.getLote(), test[0].getLote());
-        //compara��o dos atributos.
+        //comparação dos atributos.
     }
 
     @Test
@@ -135,9 +145,9 @@ public class ControllerTest {
         	cont++;
         }
         int esperado = cont - teste.length;
-        //a quantidade esperada � zero, pois todos os itens estariam l�.
+        //a quantidade esperada é zero, pois todos os itens estariam lá.
         assertTrue(esperado == 0);
-        //se n�o removeu, todos itens est�o l�.
+        //se não removeu, todos itens estão lá.
     }
     @Test
     public void testBuscarMercadoriaSemSucesso() {
@@ -149,7 +159,7 @@ public class ControllerTest {
 		Mercadoria procurada = new Mercadoria("v","b","b","b","b","b","b");
 		Mercadoria result = c.buscarMercadoria(procurada);
 		assertTrue(result == null);
-		//null � o valor se n�o encontrar nada.
+		//null é o valor se não encontrar nada.
     }
     @Test
     public void testBuscarMercadoriaComSucesso() {
@@ -191,7 +201,7 @@ public class ControllerTest {
     		  quantDeLinhas++;
     	   	
        }
-       int esperado = 7;//h� 7 linhas no arquivo
+       int esperado = 7;//há 7 linhas no arquivo
        lerArq.close();
        assertEquals("So tem uma linha", esperado, quantDeLinhas);
   }
