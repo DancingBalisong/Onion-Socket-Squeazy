@@ -77,24 +77,35 @@ public class AVLTree {
 		inserirBalanceado(this.root, n);
 	}
 
+	/**
+         * o primerio item inserido se torna a raiz.
+         * se o lote do filho for menor que o lote da mercadoria pai, o lote será inserido na esquerda.
+         * seta a mercadoria como filho da esquerda
+         * seta o pai da mercadoria inserida
+         * checa o balanceamento
+         * caso o filho da esquerda não tenha filho, insere no lugar.
+         * se não, chama recursivamente até achar um nó vazio.
+         * se o lote do filho for maior que o lote da mercadoria pai, o lote será inserido na direita.
+         * @param aComparar
+         * @param aInserir 
+         */
 	public void inserirBalanceado(No comparar, No inserir) {
 		if (comparar == null) {
-			this.root = inserir;//o primerio item inserido se torna a raiz.
+			this.root = inserir;
 		} else {
 			if (inserir.getchave().pegarLinha().compareTo(comparar.getchave().pegarLinha()) < 0) {
-				//se o lote do filho for menor que o lote da mercadoria pai, o lote será inserido na esquerda.
+				
 				if (comparar.getEsquerda().equals(null)) {
-					comparar.setEsquerda(inserir);//seta a mercadoria como filho da esquerda
-					inserir.setpai(comparar);//seta o pai da mercadoria inserida
-					verificarBalanceamento(comparar);//checa o balanceamento
-					//caso o filho da esquerda não tenha filho, insere no lugar.
+					comparar.setEsquerda(inserir);
+					inserir.setpai(comparar);
+					verificarBalanceamento(comparar);
 				} else {
-					//se não, chama recursivamente até achar um nó vazio.
+					
 					inserirBalanceado(comparar.getEsquerda(), inserir);
 				}
 
 			} else if (inserir.getchave().pegarLinha().compareTo(comparar.getchave().pegarLinha()) > 0) {
-				//se o lote do filho for maior que o lote da mercadoria pai, o lote será inserido na direita.
+				
 				if (comparar.getDireita() == null) {
 					comparar.setDireita(inserir);
 					inserir.setpai(comparar);
@@ -104,7 +115,7 @@ public class AVLTree {
 					inserirBalanceado(comparar.getDireita(), inserir);
 				}
 			} else {
-				// O nó já existe, pq já existe a chave
+				
 			}
 		}
 	}
@@ -143,44 +154,58 @@ public class AVLTree {
 		//a chave seria o numero lote.
 		removerAVL(this.root, chave);
 	}
-
+	/**
+         * o AVL tenta remover sem contrabalancear.
+         * ele começa pelo root, e depois chama recursivamente.
+         * se nó for vazio, não faz nada.
+         * método de busca binária, para maior, busca-se no lado direito, no menor, lado esquerdo.
+	 * remove quando encontra. ai chama o balanceamento
+         * @param atual
+         * @param chave 
+         */
 	public void removerAVL(No atual, Mercadoria chave) {
-		//o AVL tenta remover sem contrabalancear.
-		//ele começa pelo root, e depois chama recursivamente.
+		
 		if (atual == null) {
 			return;
-			//se nó for vazio, não faz nada.
+			
 		} else {
-			//método de busca binária, para maior, busca-se no lado direito, no menor, lado esquerdo. Recursivo.
+			
 			if ((atual.getchave().pegarLinha().compareTo(chave.pegarLinha()) > 0)) {
 				removerAVL(atual.getEsquerda(), chave);
 			} else if (atual.getchave().pegarLinha().compareTo(chave.pegarLinha()) < 0) {
 				removerAVL(atual.getDireita(), chave);
 			} else if (atual.getchave().pegarLinha().compareTo(chave.pegarLinha()) == 0) {
 				deletarNo(atual);
-				//remove quando encontra. ai chama o balanceamento
+				
 			}
 		}
 	}
 
+	/**
+         * recebe mercadoria a ser removida, ou o nó dela.
+         * caso o nó seja a raiz, remove.
+         * r é um nó q remove a mercadoria por um de seus sucessores.
+         * chama o sucessor para o nó removido.
+         * se o no a ser removido tiver a raiz como pai, troca
+         * @param mr 
+         */
 	public void deletarNo(No mr) {
-		//recebe mercadoria a ser removida, ou o nó dela.
+		
 		No r;
 		if (mr.getEsquerda() == null || mr.getDireita() == null) {
-			//caso o nó seja a raiz, remove.
+			
 			if (mr.getpai() == null) {
 				this.root = null;
 				mr = null;
 				return;
 			}
 			r = mr;
-			//se apenas um nó folha.
+			
 
 		} else {
 			r = sucessor(mr);
-			//r é um nó q remove a mercadoria por um de seus sucessores.
+			
 			mr.setchave(r.getchave());
-			//chama o sucessor para o nó removido.
 		}
 
 		No p;//pai.
@@ -195,7 +220,6 @@ public class AVLTree {
 		
 		else if (r.getpai() == null)
 			this.root = p;
-			//se o no a ser removido tiver a raiz como pai, troca
 		
 		else {
 			if (r == r.getpai().getEsquerda()) {
@@ -205,25 +229,31 @@ public class AVLTree {
 			}
 			verificarBalanceamento(r.getpai());
 		}
-		r = null;//o r acabou n usado.
+		r = null;//o r acabou não usado.
 	}
 
 	public Mercadoria buscar(Mercadoria buscada){
 		return buscarBinariamente(this.root, buscada);
 	}
 	
+	/**
+	*método de busca binária, para maior, busca-se no lado direito, no menor, lado esquerdo. Recursivo.
+	*retorna a mercadoria.
+	*@param daBusca
+	*@param buscada
+	*/
 	private Mercadoria buscarBinariamente(No daBusca, Mercadoria buscada) {
 		if (daBusca == null) {
 			return null;
 		} else {
-			//método de busca binária, para maior, busca-se no lado direito, no menor, lado esquerdo. Recursivo.
+			
 			if ((daBusca.getchave().pegarLinha().compareTo(buscada.pegarLinha()) > 0)) {
 				buscarBinariamente(daBusca.getEsquerda(), buscada);
 			} else if (daBusca.getchave().pegarLinha().compareTo(buscada.pegarLinha()) < 0) {
 				buscarBinariamente(daBusca.getDireita(), buscada);
 			} else if (daBusca.getchave().pegarLinha().compareTo(buscada.pegarLinha()) == 0) {
 				return daBusca.getchave();
-				//retorna a mercadoria.
+				
 			}
 		}
 		return null;
@@ -317,28 +347,40 @@ public class AVLTree {
 		}
 	}
 
+	/**
+	*se a raiz n existir, retorna -1.
+	*se só houver a raiz, retorna 0
+	*senão, retorna o somatório dos nós à direita
+	*senão, retorna o somatório dos nós à esquerda
+	*@param atual
+	*/
 	public int altura(No atual) {
 		if (atual == null) {
 			return -1;
 		}
-		//se a raiz n existir, retorna -1.
+		
 		if (atual.getEsquerda() == null && atual.getDireita() == null) {
 			return 0;
-		//só a raiz
+		
 		} else if (atual.getEsquerda() == null) {
 			return 1 + altura(atual.getDireita());
-		//Somatório da altura pelos nós da direita
+		
 		} else if (atual.getDireita() == null) {
 			return 1 + altura(atual.getEsquerda());
-		//Somatório da altura pelo nós da esquerda
+		
 		} else {
 			return 1 + Math.max(altura(atual.getEsquerda()), altura(atual.getDireita()));
 		}
 	}
 	
+	
+	/**
+	*seta o balanceamento pela subtração das alturas das subarvores.
+	*@param No
+	*/
 	private void setBalanceamento(No No) {
 		No.setBalanceamento(altura(No.getDireita()) - altura(No.getEsquerda()));
-		//seta o balanceamento pela subtração das alturas das subarvores.
+		
 	}
 	
 	public Iterator iterador(){
