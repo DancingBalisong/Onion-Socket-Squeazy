@@ -153,6 +153,11 @@ public class Controller {
                     return false;
     }
 
+	
+    /**
+     * chama o metodo de remoção existente na classe AVLTree
+     * manda a chave para esse método istanciado pelo objeto "salgueiroLutador"
+     */
     public void removerDaArvore(Mercadoria chave){
             salgueiroLutador.remover(chave);
     }
