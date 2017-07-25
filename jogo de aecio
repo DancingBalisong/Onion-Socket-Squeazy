@@ -5,24 +5,28 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 public class enemi extends Actor
 {
-    
     public void act() 
     {
         move(3);
         if(Greenfoot.getRandomNumber(100) < 10){
            turn(Greenfoot.getRandomNumber(15)*30);      
         }
+        
         eatAtor();
     }    
     public void eatAtor(){
         if(isTouching(ator.class)){
           removeTouching(ator.class);
           getWorld().showText("YOU LOSE!", 300, 200);
-         
+          
        }
+       
+    }
+    
+    public void removeCobra(){
+         getWorld().removeObject(this);
     }
 }
-
 
 
 //código do ator
@@ -33,9 +37,10 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class ator extends Actor
 {
     private int score = 0;
+    private enemi cobra = new enemi();
     public void act() 
     { 
-        // Add your action code here.
+
        move(4);
        
        if(Greenfoot.isKeyDown("right")){
@@ -56,12 +61,19 @@ public class ator extends Actor
             score++;
             getWorld().showText("SCORE: " + score, 100, 30);
             if(score == 8){
-               getWorld().showText("YOU WIN!!!", 100, 30);
-               
+               getWorld().showText("YOU WIN!!!", 300, 200);
+               MyWorld mundo = (MyWorld) getWorld();
+               enemi c = mundo.retorneEnemi();
+               enemi c2 = mundo.retorneEnemi2();
+               enemi c3 = mundo.retorneEnemi3();
+               c.removeCobra();
+               c2.removeCobra();
+               c3.removeCobra();
             }
            }
       }
 }
+
 
 
 
@@ -72,16 +84,29 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 public class MyWorld extends World
 {
-
-    
+    private enemi enemi = new enemi();
+    private enemi enemi2 = new enemi();
+    private enemi enemi3 = new enemi();
     public MyWorld()
     {    
-        // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
+        
         super(600, 400, 1); 
+      
         addObject(new ator(), 60, 214);
         prepare();
     }
 
+    public enemi retorneEnemi (){
+        return enemi;
+    }
+    
+    public enemi retorneEnemi2 (){
+        return enemi2;
+    }
+    
+    public enemi retorneEnemi3 (){
+        return enemi3;
+    }
     
     private void prepare()
     {
@@ -101,17 +126,11 @@ public class MyWorld extends World
         addObject(item7,569,339);
         item item8 = new item();
         addObject(item8,360,78);
-        enemi enemi = new enemi();
         addObject(enemi,405,33);
-        enemi enemi2 = new enemi();
         addObject(enemi2,243,377);
-        enemi enemi3 = new enemi();
         addObject(enemi3,411,236);
+        enemi.setLocation(232,27);
+        enemi3.setLocation(436,218);
     }
+    
 }
-
-
-
-
-
-
